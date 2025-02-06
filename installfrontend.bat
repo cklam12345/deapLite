@@ -1,4 +1,4 @@
-set "repoDir=%UserProfile%\Documents\installcool\hpcooltoo4"
+set "repoDir=%UserProfile%\Documents\installdeapLite\deapLite"
 set "backendDir=%repoDir%\backend"
 copy .env.example .env 
 cmd /c npm install 
