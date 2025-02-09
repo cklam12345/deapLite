@@ -1,0 +1,7 @@
+cp diarize.bat ~/deapLite/backend
+cp wave2opus.bat ~/deapLite/backend
+cp start_wave2opus.bat ~/deapLite/backend
+cp out.txt ~/deapLite/backend
+cp wavefiles.json ~/deapLite/backend
+cp wavefiles.csv ~/deapLite/backend
+cp getAudioFilesList.bat ~/deapLite/backend
