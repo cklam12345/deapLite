@@ -11,7 +11,7 @@ IF "%PORT%"=="" SET PORT=8080
 IF "%HOST%"=="" SET HOST=0.0.0.0
 SET "WEBUI_SECRET_KEY=%WEBUI_SECRET_KEY%"
 SET "WEBUI_JWT_SECRET_KEY=%WEBUI_JWT_SECRET_KEY%"
-SET "WEBUI_NAME=367Garage"
+SET "WEBUI_NAME=DEAP - Design Engineering Agentic Platform"
 :: Check if WEBUI_SECRET_KEY and WEBUI_JWT_SECRET_KEY are not set
 IF "%WEBUI_SECRET_KEY%%WEBUI_JWT_SECRET_KEY%" == " " (
     echo Loading WEBUI_SECRET_KEY from file, not provided as an environment variable.
