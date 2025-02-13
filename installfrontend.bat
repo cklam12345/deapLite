@@ -7,10 +7,10 @@ copy .env.example .env
 cmd /c npm install 
 cmd /c npm run build 
 cmd /c npm install n8n -g
-copy DEAP.ico %backendDir%\favicon.ico
-copy DEAP.png %backendDirStatic%\n8n-logo.png
-copy Logo-vj6e7OLa.js %backendDirAssets%
-copy index-DablXALM.js %backendDirAssets%
+copy DEAP.ico %n8nDir%\favicon.ico
+copy DEAP.png %n8nDirStatic%\n8n-logo.png
+copy Logo-vj6e7OLa.js %n8nDirAssets%
+copy index-DablXALM.js %n8nDirAssets%
 cd %backendDir%
 pip install -U virtualenv
 python -m virtualenv venv 
