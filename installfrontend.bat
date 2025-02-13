@@ -11,8 +11,7 @@ copy .\venv\Scripts\activate.bat .\venv\Scripts\activate2.bat
 copy .\venv\Scripts\activate.bat .\venv\Scripts\activate3.bat
 copy .\venv\Scripts\activate.bat .\venv\Scripts\activate_ssl.bat
 echo .\start_windows.bat >> .\venv\Scripts\activate3.bat
-echo .\start_windows_ssl.bat >> .\venv\Scripts\activate_ssl.bat
 echo pip install -r requirements.txt -U >>  .\venv\Scripts\activate2.bat
 echo mkdir data >> .\venv\Scripts\activate2.bat
-echo .\execN8n.bat >> .\venv\Scripts\activate2.bat
+echo .\execN8n.bat >> .\venv\Scripts\activate_ssl.bat
 .\venv\Scripts\activate2.bat
