@@ -5,13 +5,13 @@
       "parameters": {
         "options": {}
       },
-      "id": "288fb79a-9fb3-4955-9ffc-22b7c8e7b206",
+      "id": "cd611d70-3821-4e58-acd5-b5864a757c5e",
       "name": "When chat message received",
       "type": "@n8n/n8n-nodes-langchain.chatTrigger",
       "typeVersion": 1.1,
       "position": [
-        360,
-        360
+        20,
+        0
       ],
       "webhookId": "d1df49ea-93d0-4782-be06-fdc579dae62a"
     },
@@ -20,17 +20,17 @@
         "model": "llama3.2:latest",
         "options": {}
       },
-      "id": "22a8dfc1-c86c-4e02-882d-1db347f7abbc",
+      "id": "7460e6ed-230b-49cf-a516-0cd2c00e8dc8",
       "name": "Ollama Chat Model",
       "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
       "typeVersion": 1,
       "position": [
-        900,
-        580
+        500,
+        220
       ],
       "credentials": {
         "ollamaApi": {
-          "id": "2V1sOZbOMkoQPhiy",
+          "id": "JwP2fLcHmKNS5jYu",
           "name": "Ollama account"
         }
       }
@@ -55,42 +55,42 @@
         },
         "options": {}
       },
-      "id": "60823e6f-37c1-4ae8-9b5e-49a792217de4",
+      "id": "04170e80-c3b4-472c-afc2-3b2dcc7e12a3",
       "name": "Edit Fields",
       "type": "n8n-nodes-base.set",
       "typeVersion": 3.4,
       "position": [
-        620,
-        560
+        240,
+        200
       ]
     },
     {
       "parameters": {
         "options": {}
       },
-      "id": "088e0408-9b82-40f1-9d4c-7ebd144981cf",
+      "id": "3a982def-baba-4eed-8fe8-965f5f61e690",
       "name": "Respond to Webhook",
       "type": "n8n-nodes-base.respondToWebhook",
       "typeVersion": 1.1,
       "position": [
-        1500,
-        360
+        900,
+        0
       ]
     },
     {
       "parameters": {
         "httpMethod": "POST",
-        "path": "n8n",
+        "path": "frontend2backend",
         "responseMode": "responseNode",
         "options": {}
       },
-      "id": "33a5735a-65b4-4660-be9e-f7077342c5ea",
+      "id": "b3d3f8b8-8d3d-4111-91f0-d9798c22febc",
       "name": "Webhook",
       "type": "n8n-nodes-base.webhook",
       "typeVersion": 2,
       "position": [
-        380,
-        560
+        20,
+        200
       ],
       "webhookId": "3e19a300-900d-458d-ab9b-71f06269120f"
     },
@@ -100,44 +100,57 @@
           "systemMessage": "your name Is Amy, you are a ai meeting assistant, you will not reply to chat input , just listen to query and record the incoming query and provide summary after collecting 5 minutes of conversation. if you hear from the conversation context contain in the user query that the meeting have started, send a trigger to the tool named startMeeting to kick off the meeting recording function. if you hear from the conversation context contain in the user query that the meeting have end, send a trigger to the tool named endMeeting to end the meeting recording function. "
         }
       },
-      "id": "d779a7e3-1541-492e-8a95-393d76da7862",
+      "id": "2cc35c14-d181-4d2d-a312-ca3e3cdaa364",
       "name": "AI Agent",
       "type": "@n8n/n8n-nodes-langchain.agent",
       "typeVersion": 1.6,
       "position": [
-        900,
-        360
+        540,
+        0
       ]
     },
     {
-      "parameters": {
-        "name": "startMeeting",
-        "description": "call this tool to start meeting recording.",
-        "jsCode": "// Example: convert the incoming query to uppercase and return it\nreturn query"
-      },
-      "id": "c8e27fe6-ae82-4a1d-bb1e-d5441de6a4dc",
-      "name": "startMeeting",
-      "type": "@n8n/n8n-nodes-langchain.toolCode",
-      "typeVersion": 1.1,
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
       "position": [
-        1040,
-        580
-      ]
+        640,
+        220
+      ],
+      "id": "a0137c04-90b5-4a55-8515-3426c92680d8",
+      "name": "Window Buffer Memory"
     },
     {
       "parameters": {
         "name": "endMeeting",
-        "description": "call this tool to end meeting recording.",
-        "jsCode": "// Example: convert the incoming query to uppercase and return it\nreturn query"
+        "description": "call this tool to end the meeting",
+        "language": "python",
+        "pythonCode": "import os\nos.system(\".\\stop_wave2opus_v2.bat\")\nreturn query"
       },
-      "id": "ba6adb88-7cc0-4e9c-af32-f3a8e65f049f",
-      "name": "endMeeting",
       "type": "@n8n/n8n-nodes-langchain.toolCode",
       "typeVersion": 1.1,
       "position": [
-        1160,
-        580
-      ]
+        960,
+        220
+      ],
+      "id": "d13ce4dd-f958-424e-b239-ee0932c3cc80",
+      "name": "endMeeting"
+    },
+    {
+      "parameters": {
+        "name": "startMeeting",
+        "description": "call this tool to start meeting",
+        "language": "python",
+        "pythonCode": "import os\nos.system(\".\\execWave2opus.bat\")\nreturn query"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        220
+      ],
+      "id": "3085ea13-8e41-466e-9d2a-16c6c10bd694",
+      "name": "startMeeting"
     }
   ],
   "pinData": {},
@@ -197,12 +210,12 @@
         ]
       ]
     },
-    "startMeeting": {
-      "ai_tool": [
+    "Window Buffer Memory": {
+      "ai_memory": [
         [
           {
             "node": "AI Agent",
-            "type": "ai_tool",
+            "type": "ai_memory",
             "index": 0
           }
         ]
@@ -218,17 +231,28 @@
           }
         ]
       ]
+    },
+    "startMeeting": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "aa8ab459-4c0e-4a41-92d5-429e1308ea01",
+  "versionId": "e4e23aa0-7fc7-41e5-bb92-ac1343956936",
   "meta": {
     "templateCredsSetupCompleted": true,
-    "instanceId": "49c35a1d5cfb7854184603d0abddbbad50af0381d2c905cfb222ac293c3fda42"
+    "instanceId": "26cedcb2895c973fec2aead4f5f341feeff0be80dbe53ed44ed7389e6bdeef3c"
   },
-  "id": "rPPkZepGrDH8otem",
+  "id": "ZzkLFCGKNgyOpwO7",
   "tags": []
 }

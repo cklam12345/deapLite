@@ -1,0 +1,89 @@
+{
+  "name": "Diarize Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=diarize.bat  {{ $json.path }} {{ $json.path.replace('records','diarized_files') }}_diarized.txt"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        300,
+        0
+      ],
+      "id": "395dc9b3-f114-4661-85f9-4ba920324a53",
+      "name": "wave1.0 diarize"
+    },
+    {
+      "parameters": {
+        "command": "=type  {{ $json.stdout }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        520,
+        0
+      ],
+      "id": "fd825cd5-a46b-4bd0-8542-bcb92286f1a4",
+      "name": "display"
+    },
+    {
+      "parameters": {
+        "triggerOn": "folder",
+        "path": "C:\\Users\\cklam\\wave1.0\\python\\records",
+        "events": [
+          "add"
+        ],
+        "options": {
+          "awaitWriteFinish": true,
+          "usePolling": true
+        }
+      },
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "44f6db8e-ceb7-4669-9392-e7af7f24731a",
+      "name": "Local File Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "wave1.0 diarize": {
+      "main": [
+        [
+          {
+            "node": "display",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local File Trigger": {
+      "main": [
+        [
+          {
+            "node": "wave1.0 diarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "755c2311-e04b-4048-a1ee-f7b385c70d95",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "26cedcb2895c973fec2aead4f5f341feeff0be80dbe53ed44ed7389e6bdeef3c"
+  },
+  "id": "FjDyYCaFCxfzuq0i",
+  "tags": []
+}

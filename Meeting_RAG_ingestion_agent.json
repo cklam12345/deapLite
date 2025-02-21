@@ -1,0 +1,232 @@
+{
+  "name": "Meeting RAG ingestion agent",
+  "nodes": [
+    {
+      "parameters": {
+        "model": "nomic-embed-text:latest"
+      },
+      "type": "@n8n/n8n-nodes-langchain.embeddingsOllama",
+      "typeVersion": 1,
+      "position": [
+        480,
+        360
+      ],
+      "id": "7d0422e2-10e2-4596-915e-b5dcda73b121",
+      "name": "Embeddings Ollama",
+      "credentials": {
+        "ollamaApi": {
+          "id": "JwP2fLcHmKNS5jYu",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "insert",
+        "qdrantCollection": {
+          "__rl": true,
+          "value": "meeting_recording",
+          "mode": "id"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.vectorStoreQdrant",
+      "typeVersion": 1,
+      "position": [
+        700,
+        40
+      ],
+      "id": "562cc143-4789-4d1d-86a1-f7466c972b7e",
+      "name": "Qdrant Vector Store",
+      "alwaysOutputData": false,
+      "executeOnce": false,
+      "credentials": {
+        "qdrantApi": {
+          "id": "qfnL6LYuLfBBE9Wp",
+          "name": "QdrantApi account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.documentDefaultDataLoader",
+      "typeVersion": 1,
+      "position": [
+        740,
+        300
+      ],
+      "id": "4d4efba0-f69f-42c7-a45e-2ec7eb3677ca",
+      "name": "Default Data Loader"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.textSplitterRecursiveCharacterTextSplitter",
+      "typeVersion": 1,
+      "position": [
+        760,
+        520
+      ],
+      "id": "5c7d7aa5-bb38-4da8-98e4-d965d6e575ab",
+      "name": "Recursive Character Text Splitter"
+    },
+    {
+      "parameters": {
+        "triggerOn": "folder",
+        "path": "C:\\Users\\cklam\\wave1.0\\python\\diarized_files",
+        "events": [
+          "add"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [
+        -140,
+        40
+      ],
+      "id": "b6b025ae-f9c5-47a6-b3ca-b96b0b7a6eb2",
+      "name": "Local File Trigger"
+    },
+    {
+      "parameters": {
+        "fileSelector": "=./diarized_files/{{ $json.stdout }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.readWriteFile",
+      "typeVersion": 1,
+      "position": [
+        240,
+        40
+      ],
+      "id": "1afcf0bd-cfef-4496-9d32-86bd8dc35af0",
+      "name": "Read/Write Files from Disk"
+    },
+    {
+      "parameters": {
+        "command": "=txt2txt.bat  {{ $json.path }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        40,
+        40
+      ],
+      "id": "74d76a1a-dbf1-4f38-85cd-d095083662f0",
+      "name": "Execute Command"
+    },
+    {
+      "parameters": {
+        "operation": "text",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.extractFromFile",
+      "typeVersion": 1,
+      "position": [
+        460,
+        40
+      ],
+      "id": "88bae917-39b6-47b9-b101-760b6c7a26ed",
+      "name": "Extract from File"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Default Data Loader": {
+      "ai_document": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_document",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Recursive Character Text Splitter": {
+      "ai_textSplitter": [
+        [
+          {
+            "node": "Default Data Loader",
+            "type": "ai_textSplitter",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Embeddings Ollama": {
+      "ai_embedding": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "ai_embedding",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Qdrant Vector Store": {
+      "main": [
+        []
+      ]
+    },
+    "Local File Trigger": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Read/Write Files from Disk": {
+      "main": [
+        [
+          {
+            "node": "Extract from File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Execute Command": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract from File": {
+      "main": [
+        [
+          {
+            "node": "Qdrant Vector Store",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1aa8f0a4-a9fd-4e72-998d-e1dbe5c5d92a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "26cedcb2895c973fec2aead4f5f341feeff0be80dbe53ed44ed7389e6bdeef3c"
+  },
+  "id": "0nS6UomAdnsqhkln",
+  "tags": []
+}
