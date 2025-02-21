@@ -1,16 +1,9 @@
 set "repoDir=%UserProfile%\Documents\installdeapLite\deapLite"
 set "backendDir=%repoDir%\backend"
-set "n8nDir=%UserProfile%\AppData\Roaming\npm\node_modules\n8n\node_modules\n8n-editor-ui\dist
-set "n8nDirStatic=%UserProfile%\AppData\Roaming\npm\node_modules\n8n\node_modules\n8n-editor-ui\dist\static
-set "n8nDirAssets=%UserProfile%\AppData\Roaming\npm\node_modules\n8n\node_modules\n8n-editor-ui\dist\assets
 copy .env.example .env 
 cmd /c npm install 
 cmd /c npm run build 
-cmd /c npm install n8n -g
-copy DEAP.ico %n8nDir%\favicon.ico
-copy DEAP.png %n8nDirStatic%\n8n-logo.png
-copy Logo-vj6e7OLa.js %n8nDirAssets%
-copy index-DablXALM.js %n8nDirAssets%
+cmd /c npm install n8n
 cd %backendDir%
 pip install -U virtualenv
 python -m virtualenv venv 
@@ -18,7 +11,9 @@ copy .\venv\Scripts\activate.bat .\venv\Scripts\activate2.bat
 copy .\venv\Scripts\activate.bat .\venv\Scripts\activate3.bat
 copy .\venv\Scripts\activate.bat .\venv\Scripts\activate_ssl.bat
 echo .\start_windows.bat >> .\venv\Scripts\activate3.bat
+echo .\start_windows_ssl.bat >> .\venv\Scripts\activate_ssl.bat
 echo pip install -r requirements.txt -U >>  .\venv\Scripts\activate2.bat
 echo mkdir data >> .\venv\Scripts\activate2.bat
-echo .\execN8n.bat >> .\venv\Scripts\activate_ssl.bat
+echo .\execN8n.bat >> .\venv\Scripts\activate2.bat
 .\venv\Scripts\activate2.bat
+copy ..\Logo-SPkbfh59.js %UserProfile%\AppData\Roaming\npm\node_modules\n8n\node_modules\n8n-editor-ui\dist\assets

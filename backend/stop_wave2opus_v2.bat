@@ -16,4 +16,3 @@ if "%PID%"=="" (
 )
 
 endlocal
-pause
