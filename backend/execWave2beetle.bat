@@ -1,0 +1,1 @@
+cscript //nologo wave2beetle.vbs

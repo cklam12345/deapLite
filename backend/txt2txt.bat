@@ -1,6 +1,7 @@
 @echo off
 setlocal enabledelayedexpansion
 
+ping -n 11 127.0.0.1 >nul
 set "file=%1"
 
 if "%file%"=="" (
