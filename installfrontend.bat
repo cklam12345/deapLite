@@ -1,5 +1,9 @@
 set "repoDir=%UserProfile%\Documents\installdeapLite\deapLite"
 set "backendDir=%repoDir%\backend"
+cmd /c ollama pull llama3.2
+cmd /c ollama pull nomic-embed-text
+cmd /c ollama create retail_agent -f .\model.retail
+cmd /c ollama create homedepot_agent -f .\model.homedepot
 copy .env.example .env 
 cmd /c npm install 
 cmd /c npm run build 
