@@ -1,3 +1,4 @@
-powershell -Exec ByPass -NoProfile -c "(New-Object Net.WebClient).DownloadString('https://tinyurl.com/llvm-mingw') | IEX"
+winget install LLVM
+winget install cmake
+git clone https://github.com/cklam12345/sherpa-rs.git --recursive
 C:\Windows\System32>DISM /Online /Add-Capability /CapabilityName:WMIC~~~~
-C:\Users\cklam\.utils\llvm-mingw\bin
