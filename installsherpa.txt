@@ -1,4 +1,9 @@
 winget install LLVM
 winget install cmake
 git clone https://github.com/cklam12345/sherpa-rs.git --recursive
+wget https://github.com/k2-fsa/sherpa-onnx/releases/download/asr-models/sherpa-onnx-whisper-tiny.tar.bz2
+tar xvf sherpa-onnx-whisper-tiny.tar.bz2
+cp sherpa-rs-code/sam_altman.wav sherpa-rs
+cp sherpa-rs-code/nemo_en_speakerverification_speakernet.onnx sherpa-rs
+cp sherpa-rs-code/silero_vad.onnx sherpa-rs
 C:\Windows\System32>DISM /Online /Add-Capability /CapabilityName:WMIC~~~~
