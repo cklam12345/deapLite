@@ -7,7 +7,7 @@ cmd /c ollama create homedepot_agent -f .\model.homedepot
 copy .env.example .env 
 cmd /c npm install 
 cmd /c npm run build 
-cmd /c npm install n8n
+cmd /c npm install n8n -g
 cd %backendDir%
 pip install -U virtualenv
 python -m virtualenv venv 
