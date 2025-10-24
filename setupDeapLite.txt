@@ -1,0 +1,2 @@
+C:\Users\LaCh616\AppData\Roaming\npm\node_modules\n8n\node_modules\n8n-editor-ui\dist\assets
+C:\Users\LaCh616\.cache\n8n\public\assets

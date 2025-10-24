@@ -1,0 +1,258 @@
+{
+  "name": "sk Meeting Ai",
+  "nodes": [
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "f9ebc223-267b-4582-82ec-839f0f72e1f9",
+      "name": "When chat message received",
+      "type": "@n8n/n8n-nodes-langchain.chatTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        600,
+        -340
+      ],
+      "webhookId": "ddbf9de9-e0a5-4cd4-a7db-8d4019f977f1"
+    },
+    {
+      "parameters": {
+        "model": "llama3.2:latest",
+        "options": {}
+      },
+      "id": "263808df-4e93-42d4-9950-5df951948a0e",
+      "name": "Ollama Chat Model",
+      "type": "@n8n/n8n-nodes-langchain.lmChatOllama",
+      "typeVersion": 1,
+      "position": [
+        1080,
+        -120
+      ],
+      "credentials": {
+        "ollamaApi": {
+          "id": "JwP2fLcHmKNS5jYu",
+          "name": "Ollama account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "75ebfdef-c8e2-4c3e-b716-1479d0cc2a73",
+              "name": "chatInput",
+              "value": "={{ $json?.chatInput || $json.body.chatInput }}",
+              "type": "string"
+            },
+            {
+              "id": "59b7a20f-0626-4861-93e2-015d430c266e",
+              "name": "sessionId",
+              "value": "={{ $json?.sessionId || $json.body.sessionId}}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "95db33fa-58db-4a57-91db-025eb57d577f",
+      "name": "Edit Fields",
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        820,
+        -140
+      ]
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "id": "2331bf1c-eae0-41d1-a441-0791d5a5c71d",
+      "name": "Respond to Webhook",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [
+        1480,
+        -340
+      ]
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "frontend2backend",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "912fc2f9-04b0-4f75-b3d2-201b2678081e",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        600,
+        -140
+      ],
+      "webhookId": "bd66db54-549d-4916-98b5-23c1c9c4eb40"
+    },
+    {
+      "parameters": {
+        "options": {
+          "systemMessage": "your name Is Amy, you are a ai meeting assistant, you will not reply to chat input , just listen to query and record the incoming query and provide summary after collecting 5 minutes of conversation. if you hear from the conversation context contain in the user query that the meeting have started, send a trigger to the tool named startMeeting to kick off the meeting recording function. if you hear from the conversation context contain in the user query that the meeting have end, send a trigger to the tool named endMeeting to end the meeting recording function. "
+        }
+      },
+      "id": "5a71a3b6-2e75-42cb-a798-b8451c977fa7",
+      "name": "AI Agent",
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.6,
+      "position": [
+        1120,
+        -340
+      ]
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        1220,
+        -120
+      ],
+      "id": "c5274539-5fac-4264-8401-79fe220d0a52",
+      "name": "Window Buffer Memory"
+    },
+    {
+      "parameters": {
+        "name": "endMeeting",
+        "description": "call this tool to end the meeting",
+        "language": "python",
+        "pythonCode": "import os\nos.system(\".\\stop_beetle2wav_v2.bat\")\nreturn query"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        1540,
+        -120
+      ],
+      "id": "2ae4c3b8-98f9-4163-bcf3-1d70485a7275",
+      "name": "endMeeting"
+    },
+    {
+      "parameters": {
+        "name": "startMeeting",
+        "description": "call this tool to start meeting",
+        "language": "python",
+        "pythonCode": "import os\nos.system(\".\\execWave2beetle.bat\")\nreturn query"
+      },
+      "type": "@n8n/n8n-nodes-langchain.toolCode",
+      "typeVersion": 1.1,
+      "position": [
+        1380,
+        -120
+      ],
+      "id": "0329fa06-253c-4fac-9723-b75adc36b431",
+      "name": "startMeeting"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When chat message received": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Ollama Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Respond to Webhook",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Window Buffer Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "endMeeting": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "startMeeting": {
+      "ai_tool": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "ea64590b-adf3-4ec8-b62d-c64ed2f49e70",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "26cedcb2895c973fec2aead4f5f341feeff0be80dbe53ed44ed7389e6bdeef3c"
+  },
+  "id": "NK0rH7Osndl9d3Y7",
+  "tags": []
+}

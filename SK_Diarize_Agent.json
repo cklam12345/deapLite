@@ -1,0 +1,89 @@
+{
+  "name": "SK Diarize Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "executeOnce": false,
+        "command": "=diarize.bat  {{ $json.path }} {{ $json.path.replace('records','diarized_files') }}_diarized.txt"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        300,
+        0
+      ],
+      "id": "961d01e4-36f0-4310-b64f-3a8acc40199c",
+      "name": "wave1.0 diarize"
+    },
+    {
+      "parameters": {
+        "command": "=type  {{ $json.stdout }}"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        520,
+        0
+      ],
+      "id": "0f3833f9-d576-41f8-a8a7-efc6c69b560d",
+      "name": "display"
+    },
+    {
+      "parameters": {
+        "triggerOn": "folder",
+        "path": "C:\\Users\\cklam\\wave1.0\\soundskrit\\records",
+        "events": [
+          "add"
+        ],
+        "options": {
+          "awaitWriteFinish": true,
+          "usePolling": true
+        }
+      },
+      "type": "n8n-nodes-base.localFileTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "8dd2a108-174e-4d8d-9232-99b89a2bcb4c",
+      "name": "Local File Trigger"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "wave1.0 diarize": {
+      "main": [
+        [
+          {
+            "node": "display",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Local File Trigger": {
+      "main": [
+        [
+          {
+            "node": "wave1.0 diarize",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "f538c643-deb8-4b3e-8226-6e856e1fd4e5",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "26cedcb2895c973fec2aead4f5f341feeff0be80dbe53ed44ed7389e6bdeef3c"
+  },
+  "id": "RyBuYuonHSvn8J8L",
+  "tags": []
+}

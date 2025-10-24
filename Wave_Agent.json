@@ -1,0 +1,111 @@
+{
+  "name": "Wave Agent",
+  "nodes": [
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "cfc6ba7a-8675-4e2b-89fa-767bfbeffc6c",
+              "leftValue": "={{ $json.stdout }}",
+              "rightValue": "Friend",
+              "operator": {
+                "type": "string",
+                "operation": "regex"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        440,
+        0
+      ],
+      "id": "6ac67f01-de57-45a4-9bfe-f0a6228e906a",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "command": ".\\execWave2opus.bat"
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        240,
+        0
+      ],
+      "id": "aeb9987f-2c76-4201-903c-61d0238c5fdb",
+      "name": "wave2opus"
+    },
+    {
+      "parameters": {
+        "inputSource": "passthrough"
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "2b0b4943-2658-4b39-823c-8f8a04a97946",
+      "name": "When Executed by Another Workflow"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "wave2opus",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "wave2opus": {
+      "main": [
+        [
+          {
+            "node": "If",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "When Executed by Another Workflow": {
+      "main": [
+        [
+          {
+            "node": "wave2opus",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "cd9adc6a-4aff-47a7-af94-a9e8be2d664e",
+  "meta": {
+    "instanceId": "26cedcb2895c973fec2aead4f5f341feeff0be80dbe53ed44ed7389e6bdeef3c"
+  },
+  "id": "hg88luyKPYOEaKsu",
+  "tags": []
+}
