@@ -25,7 +25,7 @@ CHANNELS = 1
 SAMPLE_WIDTH = 2
 DURATION = 10
 RECORD_DIR = "records"
-RSSI_THRESHOLD = -70
+RSSI_THRESHOLD = -150
 
 if not os.path.exists(RECORD_DIR):
     os.makedirs(RECORD_DIR)
