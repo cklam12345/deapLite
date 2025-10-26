@@ -1,0 +1,53 @@
+{
+  "name": "test say cache",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        1008,
+        416
+      ],
+      "id": "530ae0cd-23b0-4b89-a2db-81b30ebee57b",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "command": "powershell -ExecutionPolicy Bypass -File \"%USERPROFILE%\\n8n_tts\\sayCache.ps1\""
+      },
+      "type": "n8n-nodes-base.executeCommand",
+      "typeVersion": 1,
+      "position": [
+        1296,
+        416
+      ],
+      "id": "505f2854-7dda-4509-9a49-6b79946d45e4",
+      "name": "Execute Command"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Execute Command",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "053bf6de-fe60-4453-ab08-4d337b4ecbda",
+  "meta": {
+    "instanceId": "b286903315a4e9e027366b58b1b1411cef9c1d266ad2b466d192982c3b2ef861"
+  },
+  "id": "ylmbub2KRCllTIWx",
+  "tags": []
+}
